@@ -1,6 +1,8 @@
 # IOT - Smart boiler system
 
+
 ## Project description
+
 "Smart boiler system" is a small IOT project that aims to enable the user to turn on or off the boiler in his house via a website and a microcontroller.<br>
 
 The project itself is composed of three parts: the control part, the executive part and the connective part. <br>
@@ -13,12 +15,21 @@ The executive part of the project is a simulation made in Tinkercad, which consi
 
 Due to the fact that the project was made as a simulation in Tinkercad, the Arduino itself cannot be connected to the page itself or to the database, therefore the connecting part is a second web page that communicates with the control page via Google Firebase, i.e. with the first web page page. The task of the second website is to show the user all the necessary information such as: whether the water heater is on and how much time is left until the water heater shuts down, or when the water heater is on and when it will be turned off. <br>
 
+
 ## Technologies that were used in the project
 
 1. HTML, CSS and JavaScript for the two web pages
 2. Google Firebase for the database
 3. Tinkercar simulation
 
+
 ### Links
 
+[First web page - control page](https://github.com/knowhatelse/iot-smart-boiler-system/blob/main/images/IOT-SmartBoilerSystem-ControlPage.png)
+[Second web page - info page] (https://github.com/knowhatelse/iot-smart-boiler-system/blob/main/images/IOT-SmartBoilerSystem-InfoPage.png)
+[Google Firebase Database](https://console.firebase.google.com/project/iot-smartboilersystem-9fc35/database/iot-smartboilersystem-9fc35-default-rtdb/data)
 [Tinkercad simulation](https://www.tinkercad.com/things/0E1i88Rumjq?sharecode=JxUm4zF9vgikLwg6NzJOJHLy3i1DFhtpqm5Ik2k4Lqk)
+
+#### P.S.
+
+The "Set Time" functionality on the control page has a small bug, sometimes it works, sometimes it doesn't.
