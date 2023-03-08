@@ -25,10 +25,10 @@ Due to the fact that the project was made as a simulation in Tinkercad, the Ardu
 
 ### Links
 
-[First web page - control page](https://github.com/knowhatelse/iot-smart-boiler-system/blob/main/images/IOT-SmartBoilerSystem-ControlPage.png)
-[Second web page - info page] (https://github.com/knowhatelse/iot-smart-boiler-system/blob/main/images/IOT-SmartBoilerSystem-InfoPage.png)
-[Google Firebase Database](https://console.firebase.google.com/project/iot-smartboilersystem-9fc35/database/iot-smartboilersystem-9fc35-default-rtdb/data)
-[Tinkercad simulation](https://www.tinkercad.com/things/0E1i88Rumjq?sharecode=JxUm4zF9vgikLwg6NzJOJHLy3i1DFhtpqm5Ik2k4Lqk)
+[First web page - control page](https://github.com/knowhatelse/iot-smart-boiler-system/blob/main/images/IOT-SmartBoilerSystem-ControlPage.png) <br>
+[Second web page - info page](https://github.com/knowhatelse/iot-smart-boiler-system/blob/main/images/IOT-SmartBoilerSystem-InfoPage.png) <br>
+[Google Firebase Database](https://console.firebase.google.com/project/iot-smartboilersystem-9fc35/database/iot-smartboilersystem-9fc35-default-rtdb/data) <br>
+[Tinkercad simulation](https://www.tinkercad.com/things/0E1i88Rumjq?sharecode=JxUm4zF9vgikLwg6NzJOJHLy3i1DFhtpqm5Ik2k4Lqk) <br>
 
 #### P.S.
 
