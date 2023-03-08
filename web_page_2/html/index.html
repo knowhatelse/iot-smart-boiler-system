@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../css/style.css">
+    <title>Smart boiler system - info</title>
+</head>
+<body>
+    <div id="container" class="borders">
+        <header id="boilerStatus" class="borders">
+            <p id="headerTitle">Your boiler is OFF</p>
+        </header>
+        <main id="mainInfo" class="borders">
+            <div id="turnOffIn">
+                <p id="tunOffInText">Your boiler will turn off in: --:--</p>
+            </div>
+            <div id="startEndTimeInfo">
+                <div class="TimeInfo" id="TimeInfoLeft">
+                    <p class="timeInfo">Your boiler will turn on in:</p>
+                    <p class="seTime" id="startTime">-</p>
+                </div>
+                <div class="TimeInfo" id="TimeInfoRight">
+                    <p class="timeInfo">Your boiler will turn off in:</p>
+                    <p class="seTime" id="endTime">-</p>
+                </div>
+            </div>
+            <div id="btnDiv">
+                <button id="getStatus">Status</button>
+            </div>
+        </main>
+    </div>
+
+    <script type="module">
+        // Import the functions you need from the SDKs you need
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.17.1/firebase-app.js";
+        // TODO: Add SDKs for Firebase products that you want to use
+        // https://firebase.google.com/docs/web/setup#available-libraries
+      
+        // Your web app's Firebase configuration
+        const firebaseConfig = {
+          apiKey: "AIzaSyDp05LyV-RZcazi-pYM1OtnmMBZ2MTSTmo",
+          authDomain: "iot-smartboilersystem-9fc35.firebaseapp.com",
+          databaseURL: "https://iot-smartboilersystem-9fc35-default-rtdb.europe-west1.firebasedatabase.app",
+          projectId: "iot-smartboilersystem-9fc35",
+          storageBucket: "iot-smartboilersystem-9fc35.appspot.com",
+          messagingSenderId: "1093206329242",
+          appId: "1:1093206329242:web:35850ec2eb184d69e9dc23"
+        };
+      
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+
+        import {getDatabase, ref, get, child} from "https://www.gstatic.com/firebasejs/9.17.1/firebase-database.js";
+        var db = getDatabase();
+
+        var btnSendText = document.querySelector("#sendText");
+        var inpSendText = document.querySelector("#testTextInput");
+        var btnGetStatus = document.querySelector("#getStatus");
+        var headerTitle = document.querySelector("#headerTitle");
+        var turnOffInText = document.querySelector("#tunOffInText");
+        var starTime = document.querySelector("#startTime");
+        var endTime = document.querySelector("#endTime");
+        var header = document.querySelector("#boilerStatus");
+        var turnOffIn = document.querySelector("#turnOffIn");
+        var startEndTime = document.querySelector("#startEndTimeInfo");
+
+        var normalBC = "#ECE8DD";
+        var normalHeaderBC = "#E1D7C6";
+        var normalFC = "#579BB1";
+        var headerOnBC = "#48cbb5";
+        var headerOnFC = "#F8F4EA";
+        var timeOnBC = "#fdf0ca";
+        var timeOnFC = "#1a687c";
+
+        var interval;
+        
+        function GetUpdates(){
+            interval = setInterval(function(){
+                GetData();
+                CheckInterval();
+            }, 1000);
+        };
+
+        function CheckInterval(){
+            get(child(dbref,"status/"))
+            .then((snapshot)=>{
+                if( snapshot.val().isOn === false){
+                    clearInterval(interval);
+                    GetData();
+                }
+            });
+        };
+
+        function GetData(){
+            GetStatus();
+            GetTimeLeft();
+            GetStartEndTime();
+        };
+
+        function GetStatus(){
+            const dbref = ref(db);
+            get(child(dbref,"status/"))
+            .then((snapshot)=>{
+                if( snapshot.val().isOn === true){
+                    headerTitle.innerHTML = "Your boiler is ON";
+                    SetColors(header, headerOnBC, headerOnFC);
+                }
+                if(snapshot.val().isOn === false){
+                    headerTitle.innerHTML = "Your boiler is OFF";
+                    SetColors(header, normalHeaderBC, normalFC);
+                };
+            });
+        };
+
+        function GetTimeLeft(){
+            const dbref = ref(db);
+
+            get(child(dbref,"turnOffFor/"))
+            .then((snapshot)=>{
+                var hours = snapshot.val().hours;
+                var minutes = snapshot.val().minutes;
+                var seconds = snapshot.val().seconds;
+
+                if((hours != 0) || (minutes != 0) || (seconds != 0)){
+                    turnOffInText.innerHTML = "Time left: " + hours + ":"+ minutes +":"+ seconds;
+                    SetColors(turnOffIn, timeOnBC, timeOnFC);
+                }else{
+                    turnOffInText.innerHTML = "Time left: --:--";
+                    SetColors(turnOffIn, normalBC, normalFC);
+                };
+            });
+        };
+
+        function GetStartEndTime(){
+            const dbref = ref(db);
+            get(child(dbref,"startEndTime/"))
+            .then((snapshot)=>{
+                var startHours = snapshot.val().startTime;
+                var startMinutes = snapshot.val().startMinutes;
+                var endMinutes = snapshot.val().endMinutes;
+                var endHours = snapshot.val().endTime;
+
+                if(startHours != 0 && endMinutes != 0){
+                    startTime.innerHTML = startHours + ":" + startMinutes;
+                    endTime.innerHTML = endHours + ":" + endMinutes;
+                    SetColors(startEndTime, timeOnBC, timeOnFC);
+                }
+                else{
+                    startTime.innerHTML = "-";
+                    endTime.innerHTML = "-";
+                    SetColors(startEndTime, normalBC, normalFC);;
+                }
+            });
+        };
+
+        function SetColors(element, backgroundColor, foreColor){
+            element.style.backgroundColor = backgroundColor;
+            element.style.color = foreColor;
+        };
+
+        btnGetStatus.addEventListener('click', GetUpdates);
+
+    </script>
+
+</body>
+</html>

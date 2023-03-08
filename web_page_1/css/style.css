@@ -1,0 +1,158 @@
+*{
+    margin:0;
+    padding:0;
+    box-sizing: border-box;
+}
+
+html, body{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #E1D7C6;
+    font-family: 'Tahoma';
+}
+
+#textOutput{
+    color: #579BB1;
+    font-size: large;
+    background-color: white;
+    width: 70%;
+    text-align: center;
+}
+
+#container{
+    width: 80%;
+    height: 95%;
+    background-color: #ECE8DD;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#header{
+    width: 99%;
+    height: 15%;
+    display: flex;
+    flex-direction:  column;
+    justify-content: center;
+    align-items: center;
+    background-color: #579BB1;
+    margin: 5px;
+}
+
+#headerTitle{
+    color: #F8F4EA;
+    font-size: 300%;
+}
+
+.borders{
+    border: #F8F4EA solid 5px;
+    border-radius: 5px;
+}
+
+#main{
+    width: 99%;
+    height: 99%;
+    display: flex;
+    flex-direction: column;
+    height: 82.5%;
+    margin: 5px;
+    background-color: #ECE8DD;
+}
+
+#upperDiv{
+    width: 100%;
+    height: 50%;
+    display: flex;
+    border-bottom: #F8F4EA solid 5px;
+}
+
+#turnOnTimeDiv{
+    border-right: #F8F4EA solid 5px;;
+}
+
+#middleDiv{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 50%;
+    border-bottom: #F8F4EA solid 5px;
+}
+
+#buttonsDiv{
+    width: 100%;
+    height: 20%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: #579BB1;
+}
+
+.upperDivs{
+    width: 50%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.text{
+    font-size: 200%;
+    height: 20%;
+    color: #579BB1;
+}
+
+input{
+    width: 80%;
+    height: 40%;
+    color: #579BB1;
+    font-size: 250%;
+    text-align: center;
+    border: #579BB1 2.5px solid;
+    border-radius: 5px;
+    background-color: #F8F4EA;
+}
+
+button{
+    width: 50%;
+    height: 25%;
+    background-color: #F8F4EA;
+    color: #579BB1;
+    border: 2px solid #F8F4EA;
+    font-size: 150%;
+    margin: 2px;
+}
+
+@media only screen and (max-width: 700px){
+    
+    #headerTitle{
+        font-size: 150%;
+    }
+    .text{
+        font-size: 100%;
+    }
+    button{
+        font-size: 100%;
+    }
+}
+
+@media only screen and (max-height: 700px){
+    
+    #headerTitle{
+        font-size: 150%;
+    }
+
+    .text{
+        font-size: 100%;
+    }
+
+    button{
+        font-size: 100%;
+    }
+}

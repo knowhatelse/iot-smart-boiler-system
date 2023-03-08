@@ -1,0 +1,176 @@
+*{
+    margin:0;
+    padding:0;
+    box-sizing: border-box;
+}
+
+html, body{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #579BB1;
+    font-family: 'Tahoma';
+}
+
+#container{
+    width: 80%;
+    height: 95%;
+    background-color: #F8F4EA;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border: 5px solid #E1D7C6;
+}
+
+#boilerStatus{
+    width: 99%;
+    height: 15%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: #E1D7C6;
+    color: #579BB1;
+    margin: 5px;
+}
+
+#headerTitle{
+    font-size: 300%;
+}
+
+#mainInfo{
+    width: 99%;
+    height: 99%;
+    display: flex;
+    flex-direction: column;
+    height: 82.5%;
+    margin: 5px;
+    background-color: #ECE8DD;
+}
+
+#turnOffIn{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 50%;
+    border-bottom: #579BB1 solid 5px;
+}
+
+#startEndTimeInfo{
+    width: 100%;
+    height: 50%;
+    display: flex;
+    border-bottom: #579BB1 solid 5px;
+}
+
+#TimeInfoLeft{
+    border-right: #579BB1 solid 5px;;
+}
+
+#btnDiv{
+    width: 100%;
+    height: 20%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: #E1D7C6;
+}
+
+.TimeInfo{
+    width: 50%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#tunOffInText{
+    font-size: 300%;
+    height: 20%;
+    width: 100%;
+    padding: 2%;
+    color: #579BB1;
+    text-align: center;
+}
+
+.timeInfo{
+    font-size: 200%;
+    height: 20%;
+    width: 100%;
+    padding: 2%;
+    color: #F8F4EA;
+    background-color: #579BB1;
+    text-align: center;
+}
+
+.seTime{
+    font-size: 500%;
+    height: 20%;
+    color: #579BB1;
+    width: 100%;
+    text-align: center;
+    padding: 15%;
+}
+
+.borders{
+    border: #579BB1 solid 5px;
+    border-radius: 5px;
+}
+
+button{
+    width: 50%;
+    height: 25%;
+    background-color: #579BB1;
+    color: #F8F4EA;
+    border: none;
+    font-size: 150%;
+    margin: 2px;
+}
+
+@media only screen and (max-width: 700px){
+    
+    #headerTitle{
+        font-size: 150%;
+    }
+    #tunOffInText{
+        font-size: 100%;
+    }
+    .timeInfo{
+        font-size: 100%;
+    }
+    button{
+        font-size: 100%;
+    }
+    .seTime{
+        font-size: 150%;
+        height: 20%;
+        color: #579BB1;
+    }
+}
+
+@media only screen and (max-height: 700px){
+    
+    #headerTitle{
+        font-size: 150%;
+    }
+    #tunOffInText{
+        font-size: 100%;
+    }
+    .timeInfo{
+        font-size: 100%;
+    }
+
+    button{
+        font-size: 100%;
+    }
+    .seTime{
+        font-size: 250%;
+        height: 20%;
+        color: #579BB1;
+    }
+}

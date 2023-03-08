@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../css/style.css">
+    <title>Smart boiler system</title>
+</head>
+<body>
+    <div id="container" class="borders">
+        <header id="header" class="borders">
+            <p id="headerTitle"> Smart boiler system</p>
+            <p id="textOutput"></p>
+        </header>
+        <main id="main" class="borders">
+            <div id="upperDiv">
+                <div id="turnOnTimeDiv" class="upperDivs">
+                    <p class="text">Turn on boiler at:</p>
+                    <input id="startTime" class="input" type="time" min="0" max = "24">
+                </div>
+                <div id="turnOffTime" class="upperDivs">
+                    <p class="text">Turn off boiler at:</p>
+                    <input id="endTime" class="input" type="time" min="0" max="24">
+                </div>
+            </div>
+            <div id="middleDiv">
+                <p class="text">Turn off for:</p>
+                <input id="turnOnFor" type="number" min="0" max="24">
+            </div>
+            <div id="buttonsDiv" class="borders">
+                <button id="turnOn">ON</button>
+                <button id="turnOff">OFF</button>
+                <button id="setTime">Set time</button>
+            </div>
+        </main>
+    </div>
+
+    <script type="module">
+        // Import the functions you need from the SDKs you need
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.17.1/firebase-app.js";
+        // TODO: Add SDKs for Firebase products that you want to use
+        // https://firebase.google.com/docs/web/setup#available-libraries
+      
+        // Your web app's Firebase configuration
+        const firebaseConfig = {
+          apiKey: "AIzaSyDp05LyV-RZcazi-pYM1OtnmMBZ2MTSTmo",
+          authDomain: "iot-smartboilersystem-9fc35.firebaseapp.com",
+          databaseURL: "https://iot-smartboilersystem-9fc35-default-rtdb.europe-west1.firebasedatabase.app",
+          projectId: "iot-smartboilersystem-9fc35",
+          storageBucket: "iot-smartboilersystem-9fc35.appspot.com",
+          messagingSenderId: "1093206329242",
+          appId: "1:1093206329242:web:35850ec2eb184d69e9dc23"
+        };
+      
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+
+        import {getDatabase, ref, set} from "https://www.gstatic.com/firebasejs/9.17.1/firebase-database.js";
+
+        var db = getDatabase();
+
+        var btnSetTime = document.querySelector("#setTime");
+        var btnTurnOn = document.querySelector("#turnOn");
+        var btnTurnOff = document.querySelector("#turnOff");
+        var inpStartTime = document.querySelector("#startTime");
+        var inpEndTime = document.querySelector("#endTime");
+        var inpTurnOnFor = document.querySelector("#turnOnFor");
+        var textOutput = document.querySelector("#textOutput");
+
+
+        var normalFC = "#579BB1";
+        var normalBC = "#F8F4EA";
+        var turnOnBC = "#48cbb5";
+        var turnOffBC = "#f9f871";
+        var setTimerBC = "#41b4bb";
+
+        var timerInterval;
+        var timeOut1;
+        var timeOut2;
+
+        function TurnOn(){
+            if((inpStartTime.value != 0) && (inpEndTime.value != 0)){
+                alert("Can not turn on the boiler while the turn on/off time is already set!");
+                return;
+            };
+
+            if(inpTurnOnFor.value != 0){
+                alert("The boiler has been turned on!");
+                Countdown(inpTurnOnFor.value);
+                SetStatus(true);
+                SetButtonColors(btnTurnOn, turnOnBC, normalBC);
+                SetButtonColors(btnTurnOff, turnOffBC, normalFC);
+            }else{
+                alert("No time set for turn off!");
+            };
+        };
+
+        function Countdown(time){
+            var timeInSeconds = time * 3600;
+            var targetTime = 0;
+
+            timerInterval = setInterval(function(){
+                if(timeInSeconds > targetTime){
+                    let hours = Math.floor(timeInSeconds / 3600);
+                    let minutes = Math.floor((timeInSeconds % 3600) / 60);
+                    let seconds = Math.floor(timeInSeconds % 60);
+
+                    set(ref(db,"turnOffFor/"),{
+                        hours: hours,
+                        minutes: minutes,
+                        seconds: seconds
+                    });
+
+                    timeInSeconds--;
+                }else{
+                    clearInterval(timerInterval);
+                    TurnOff();
+                };
+            }, 1000);
+        };
+
+        function TurnOff(){
+            SetStatus(false);
+            SetButtonColors(btnTurnOn, normalBC, normalFC);
+            SetButtonColors(btnTurnOff, normalBC, normalFC);
+            SetButtonColors(btnSetTime, normalBC, normalFC);
+            ClearInputs();
+            clearTimeout(timerInterval);
+            clearTimeout(timeOut1);
+            clearTimeout(timeOut2);
+        };
+
+        function SetStatus(status){
+            set(ref(db,"status/"),{
+                isOn:status
+            });
+        };
+        
+        function SetButtonColors(button, backgroundColor, foreColor){
+            button.style.backgroundColor = backgroundColor;
+            button.style.color = foreColor;
+        };
+        
+        function ClearInputs(){
+            inpStartTime.value = "";
+            inpEndTime.value = "";
+            inpTurnOnFor.value = "";
+
+            set(ref(db, "turnOffFor/"),{
+                hours: 0,
+                minutes: 0,
+                seconds: 0,
+            });
+
+            set(ref(db, "startEndTime/"),{
+                startTime: 0,
+                endTime: 0,
+            });
+        };
+
+        function SetTime(){
+            if(CheckInputs() === false){
+                return;
+            }
+
+            var startTime = inpStartTime.value;
+            var startHours = parseInt(startTime.slice(0,2));
+            var startMinutes = parseInt(startTime.slice(-2));
+            var startTimeInMs = (startHours * 3600000) + (startMinutes * 60000);
+
+            var endTime = inpEndTime.value;
+            var endHours = parseInt(endTime.slice(0,2));
+            var endMinutes = parseInt(endTime.slice(-2));
+            var endtimeInMs = (endHours * 3600000) + (endMinutes * 60000);
+
+            if(TimeValidation(startHours, startMinutes, endHours, endMinutes) === false){
+                return;
+            }
+
+            var currentHours = new Date().getHours();
+            var currentMinutes = new Date().getMinutes();
+            var timeNowInMs = (currentHours * 3600000) + (currentMinutes * 60000);
+
+            var timeToWaitON = startTimeInMs - timeNowInMs;
+            var timeToWaitOFF = startTimeInMs - timeNowInMs;
+
+            SetButtonColors(btnSetTime, setTimerBC, normalBC);
+
+            set(ref(db,"startEndTime/"),{
+                startTime: startHours,
+                startMinutes: startMinutes,
+                endMinutes: endMinutes,
+                endTime: endHours,
+            });
+
+            timeOut1 = setTimeout(function(){
+                SetStatus(true);
+                SetButtonColors(btnTurnOn, turnOnBC, normalBC);
+                SetButtonColors(btnTurnOff, turnOffBC, normalFC);
+
+                timeOut2 = setTimeout(function(){
+                    TurnOff();
+                }, timeToWaitOFF);
+            }, timeToWaitON);
+        };
+
+        function CheckInputs(){
+            if(inpTurnOnFor.value != 0){
+                alert("Can not set turn on/off time while the boiler is running!");
+                return false;
+            };
+
+            if(((inpStartTime.value === "") || (inpEndTime.value === ""))){
+                alert("There is no valid start or end time!");
+                return false;
+            };
+
+            return true;
+        };
+
+        function TimeValidation(sHours, sMinutes, eHours, eMinutes){
+            if(eHours < sHours){
+                alert("There is no valid start or end time!");
+                return;
+            };
+
+            if(eHours === sHours){
+                if(eMinutes <= sMinutes){
+                    alert("There is no valid start or end time!");
+                    return;
+                };
+            };
+
+            return true;
+        };
+
+        btnTurnOn.addEventListener('click',TurnOn);
+        btnTurnOff.addEventListener('click',TurnOff);
+        btnSetTime.addEventListener('click', SetTime);
+
+    </script>
+   
+</body>
+</html>
